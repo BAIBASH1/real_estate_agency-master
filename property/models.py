@@ -1,13 +1,10 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
-    owner_pure_phone = PhoneNumberField('Нормализованный номер владельца:', null=True, blank=True)
     new_building = models.BooleanField(
         'Новостройка или нет',
         null=True,
@@ -58,8 +55,7 @@ class Flat(models.Model):
         related_name='liked_flats',
         verbose_name='Кто лайкнул:',
         blank=True)
-
-
+    
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
@@ -81,13 +77,23 @@ class Complaint(models.Model):
 
 class Owner(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
-    owner_pure_phone = PhoneNumberField('Нормализованный номер владельца:', null=True, blank=True)
+
+    owners_phonenumber = models.CharField(
+        'Номер владельца',
+        max_length=20
+    )
+    owner_pure_phone = PhoneNumberField(
+        'Нормализованный номер владельца:',
+        null=True,
+        blank=True
+    )
+
     flats = models.ManyToManyField(
         Flat,
         related_name='owners',
         verbose_name='Квартиры в собственности: ',
         blank=True
     )
+
     def __str__(self):
         return f'{self.owner}'
