@@ -1,6 +1,9 @@
 from django.contrib import admin
-
 from .models import Complaint, Flat, Owner
+
+@admin.register(Flat, Complaint, Owner)
+class PersonAdmin(admin.ModelAdmin):
+    pass
 
 
 class OwnerInline(admin.TabularInline):
@@ -41,11 +44,6 @@ class OwnerAdmin(admin.ModelAdmin):
     raw_id_fields = ['flats']
     list_display = [
         'owner',
-        'owners_phonenumber',
-        'owner_pure_phone'
+        'phonenumber',
+        'pure_phonenumber'
     ]
-
-
-admin.site.register(Flat, FlatAdmin)
-admin.site.register(Complaint, ComplaintAdmin)
-admin.site.register(Owner, OwnerAdmin)
