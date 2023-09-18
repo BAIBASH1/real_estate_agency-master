@@ -6,9 +6,8 @@ from django.db.models import Q
 
 def fill_new_building(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    flats_without_new_building = Flat.objects.filter(new_building=None)
-    flats_without_new_building.filter(construction_year__gte=2015).update(new_building=True)
-    flats_without_new_building.filter(construction_year__lt=2015).update(new_building=True)
+    Flat.objects.filter(new_building=None).filter(construction_year__gte=2015).update(new_building=True)
+    Flat.objects.filter(new_building=None).filter(construction_year__lt=2015).update(new_building=True)
 
 
 class Migration(migrations.Migration):
