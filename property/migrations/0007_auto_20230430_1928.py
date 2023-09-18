@@ -6,7 +6,7 @@ from django.db import migrations
 
 def normalize_phone_number(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.iterator():
         phone_number = flat.owners_phonenumber
         parsed_number = phonenumbers.parse(phone_number, "RU")
         if phonenumbers.is_valid_number(parsed_number):
@@ -16,9 +16,8 @@ def normalize_phone_number(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('property', '0006_auto_20230430_1804'),
+        ('property', '0006_auto_20230430_1804')
     ]
 
     operations = [
