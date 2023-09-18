@@ -10,9 +10,8 @@ def normalize_phone_number(apps, schema_editor):
         phone_number = flat.owners_phonenumber
         parsed_number = phonenumbers.parse(phone_number, "RU")
         if phonenumbers.is_valid_number(parsed_number):
-            flat.owner_pure_phone = f'+7{parsed_number.national_number}'
+            flat.owner_pure_phone = phonenumbers.format_number(parsed_number, phonenumbers.PhoneNumberFormat.E164)
             flat.save()
-
 
 
 class Migration(migrations.Migration):
