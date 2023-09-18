@@ -1,17 +1,13 @@
 from django.contrib import admin
 from .models import Complaint, Flat, Owner
 
-@admin.register(Flat, Complaint, Owner)
-class PersonAdmin(admin.ModelAdmin):
-    pass
-
 
 class OwnerInline(admin.TabularInline):
     model = Flat.owners.through
     raw_id_fields = ['owner']
     extra = 3
 
-
+@admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     inlines = [OwnerInline]
     search_fields = [
@@ -36,10 +32,12 @@ class FlatAdmin(admin.ModelAdmin):
     raw_id_fields = ['liked_by']
 
 
+@admin.register(Complaint)
 class ComplaintAdmin(admin.ModelAdmin):
     raw_id_fields = ['flat', 'user']
 
 
+@admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
     raw_id_fields = ['flats']
     list_display = [
@@ -47,3 +45,4 @@ class OwnerAdmin(admin.ModelAdmin):
         'phonenumber',
         'pure_phonenumber'
     ]
+
